@@ -3,6 +3,8 @@ import credentialsRepository from '@/repositories/credentials-repository';
 
 import bcrypt from 'bcrypt';
 
+import Cryptr from 'cryptr';
+
 import { duplicatedCredentialsError } from './errors';
 
 export async function createCredential({
@@ -12,9 +14,11 @@ export async function createCredential({
   username,
   userId
 }: RegisterCredential) {
-  if (title) await validateUniqueNameCredentialOrFail(title);
+  await validateUniqueNameCredentialOrFail(title, userId);
 
-  const hashedPassword = await bcrypt.hash(password, 12);
+  const cryptr = new Cryptr(process.env.SECRET_KEY || '!5S5G6$1AE@');
+
+  const hashedPassword = cryptr.encrypt(password);
 
   return credentialsRepository.create({
     url,
@@ -25,8 +29,11 @@ export async function createCredential({
   });
 }
 
-async function validateUniqueNameCredentialOrFail(title: string) {
-  const credentialsWithSameName = await credentialsRepository.findByTitle(title);
+async function validateUniqueNameCredentialOrFail(title: string, userId: number) {
+  const credentialsWithSameName = await credentialsRepository.findByTitleAnduserId(
+    title,
+    userId
+  );
 
   if (credentialsWithSameName) {
     throw duplicatedCredentialsError();

@@ -1,12 +1,11 @@
 import credentialsService from '@/services/credentials-service';
-import userService from '@/services/users-service';
 
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 
 export async function credentialsPost(req: Request, res: Response) {
-  const { password, url, title, username, userId } = req.body;
-
+  const { password, url, title, username } = req.body;
+  const { userId } = res.locals;
   try {
     await credentialsService.createCredential({ password, url, title, username, userId });
 

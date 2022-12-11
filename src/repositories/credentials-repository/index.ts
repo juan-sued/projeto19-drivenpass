@@ -1,10 +1,15 @@
 import { prisma } from '@/config';
 import { Prisma } from '@prisma/client';
 
-async function findByTitle(title: string, select?: Prisma.CredentialSelect) {
-  const params: Prisma.CredentialFindUniqueArgs = {
+async function findByTitleAnduserId(
+  title: string,
+  userId: number,
+  select?: Prisma.CredentialSelect
+) {
+  const params: Prisma.CredentialFindFirstArgs = {
     where: {
-      title
+      title,
+      userId
     }
   };
 
@@ -12,7 +17,7 @@ async function findByTitle(title: string, select?: Prisma.CredentialSelect) {
     params.select = select;
   }
 
-  return prisma.credential.findUnique(params);
+  return prisma.credential.findFirst(params);
 }
 
 async function create(data: Prisma.CredentialUncheckedCreateInput) {
@@ -22,7 +27,7 @@ async function create(data: Prisma.CredentialUncheckedCreateInput) {
 }
 
 const credentialsRepository = {
-  findByTitle,
+  findByTitleAnduserId,
   create
 };
 
