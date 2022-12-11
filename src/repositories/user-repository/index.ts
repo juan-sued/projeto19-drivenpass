@@ -1,11 +1,11 @@
-import { prisma } from "@/config";
-import { Prisma } from "@prisma/client";
+import { prisma } from '@/config';
+import { Prisma } from '@prisma/client';
 
 async function findByEmail(email: string, select?: Prisma.UserSelect) {
   const params: Prisma.UserFindUniqueArgs = {
     where: {
-      email,
-    },
+      email
+    }
   };
 
   if (select) {
@@ -17,13 +17,13 @@ async function findByEmail(email: string, select?: Prisma.UserSelect) {
 
 async function create(data: Prisma.UserUncheckedCreateInput) {
   return prisma.user.create({
-    data,
+    data
   });
 }
 
 const userRepository = {
   findByEmail,
-  create,
+  create
 };
 
 export default userRepository;
