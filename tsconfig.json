@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "CommonJS",
+    "rootDirs": ["./src"],
+    "sourceMap": true,
+    "outDir": "dist",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "checkJs": true,
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": [
+        "*"
+      ]
+   
+    }
+    ,
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      }
+    ]
+  },
+  "ts-node": {
+    "esm": true
+},
+  "include": ["src"]
+}
