@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { Credential, User } from '@prisma/client';
 
 //========= create user types ===========//
 
@@ -13,6 +13,10 @@ export type SignInResult = {
 };
 
 export type GetUserOrFailResult = Pick<User, 'id' | 'email' | 'password'>;
+
+//========= credentials types ===========//
+
+export type RegisterCredential = Omit<Credential, 'id'>;
 
 //========= errors types ===========//
 

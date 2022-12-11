@@ -5,7 +5,7 @@ import cors from 'cors';
 
 import { handleApplicationErrors } from '@/middlewares';
 import { connectDb, disconnectDB } from '@/config';
-import { authenticationRouter, usersRouter } from '@/routes';
+import { authenticationRouter, usersRouter, credentialsRouter } from '@/routes';
 
 const app = express();
 app
@@ -14,6 +14,7 @@ app
   .get('/health', (_req, res) => res.send('OK!'))
   .use('/users', usersRouter)
   .use('/auth', authenticationRouter)
+  .use('/credentials', credentialsRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
