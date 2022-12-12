@@ -5,7 +5,12 @@ import cors from 'cors';
 
 import { handleApplicationErrors } from '@/middlewares';
 import { connectDb, disconnectDB } from '@/config';
-import { authenticationRouter, usersRouter, credentialsRouter } from '@/routes';
+import {
+  authenticationRouter,
+  usersRouter,
+  credentialsRouter,
+  networksRouter
+} from '@/routes';
 
 const app = express();
 app
@@ -15,6 +20,7 @@ app
   .use('/users', usersRouter)
   .use('/auth', authenticationRouter)
   .use('/credentials', credentialsRouter)
+  .use('/networks', networksRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
