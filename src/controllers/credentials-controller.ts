@@ -1,3 +1,4 @@
+import { invalidDataError } from '@/errors';
 import credentialsService from '@/services/credentials-service';
 import { Credential } from '@prisma/client';
 
@@ -38,6 +39,21 @@ export async function credentialsGet(req: Request, res: Response) {
     if (error.name === 'ConflictError') {
       return res.sendStatus(httpStatus.FORBIDDEN);
     }
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+}
+
+export async function credentialDelete(req: Request, res: Response) {
+  const { userId } = res.locals;
+  const idCredential = Number(req.params.idCredential);
+
+  try {
+    if (!idCredential) invalidDataError(['id inexistent']);
+
+    await credentialsService.deleteCredential(userId, idCredential);
+
+    return res.sendStatus(httpStatus.OK);
+  } catch (error: any) {
     return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }

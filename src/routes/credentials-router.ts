@@ -1,4 +1,4 @@
-import { credentialsGet, credentialsPost } from '@/controllers';
+import { credentialDelete, credentialsGet, credentialsPost } from '@/controllers';
 import { validateBody, authenticateToken, validateParams } from '@/middlewares';
 import { credentialsSchema } from '@/schemas';
 import { credentialsParamsSchema } from '@/schemas/credentialsParamsSchema';
@@ -10,6 +10,7 @@ credentialsRouter
   .all('/*', authenticateToken)
   .get('/', credentialsGet)
   .get('/:idCredential', validateParams(credentialsParamsSchema), credentialsGet)
-  .post('/', validateBody(credentialsSchema), credentialsPost);
+  .post('/', validateBody(credentialsSchema), credentialsPost)
+  .delete('/:idCredential', validateParams(credentialsParamsSchema), credentialDelete);
 
 export { credentialsRouter };
