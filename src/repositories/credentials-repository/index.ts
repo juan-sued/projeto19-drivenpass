@@ -20,6 +20,39 @@ async function findByTitleAnduserId(
   return prisma.credential.findFirst(params);
 }
 
+async function findAllCredentials(userId: number, select?: Prisma.CredentialSelect) {
+  const params: Prisma.CredentialFindManyArgs = {
+    where: {
+      userId
+    }
+  };
+
+  if (select) {
+    params.select = select;
+  }
+
+  return prisma.credential.findMany(params);
+}
+
+async function findByIdCredential(
+  idCredential: number,
+  userId?: number,
+  select?: Prisma.CredentialSelect
+) {
+  const params: Prisma.CredentialFindFirstArgs = {
+    where: {
+      id: idCredential,
+      userId
+    }
+  };
+
+  if (select) {
+    params.select = select;
+  }
+
+  return prisma.credential.findFirst(params);
+}
+
 async function create(data: Prisma.CredentialUncheckedCreateInput) {
   return prisma.credential.create({
     data
@@ -28,7 +61,9 @@ async function create(data: Prisma.CredentialUncheckedCreateInput) {
 
 const credentialsRepository = {
   findByTitleAnduserId,
-  create
+  create,
+  findAllCredentials,
+  findByIdCredential
 };
 
 export default credentialsRepository;
