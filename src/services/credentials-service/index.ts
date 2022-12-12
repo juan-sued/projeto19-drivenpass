@@ -60,7 +60,16 @@ async function listAllCredentials(userId: number) {
   return listCredentials;
 }
 
+async function deleteCredential(userId: number, idCredential: number) {
+  const credential = await validateCredentialOrFail(idCredential);
+
+  if (credential.userId !== userId) throw forbiddenError();
+
+  return credentialsRepository.deleteCredential(idCredential);
+}
+
 //============= UTILS ===============//
+
 function decriptPassword(hashedPassword: string) {
   const decryptPassword = cryptr.decrypt(hashedPassword);
   return decryptPassword;
@@ -89,7 +98,8 @@ async function validateCredentialOrFail(idCredential: number) {
 const credentialsService = {
   createCredential,
   listCredentialById,
-  listAllCredentials
+  listAllCredentials,
+  deleteCredential
 };
 
 export * from './errors';
