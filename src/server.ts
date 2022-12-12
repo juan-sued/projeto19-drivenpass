@@ -7,3 +7,5 @@ init().then(() => {
     console.log('Servidor rodando na porta ' + PORT);
   });
 });
+
+export default app;
