@@ -49,9 +49,7 @@ export async function networkdelete(req: Request, res: Response) {
   const idNetwork = Number(req.params.idNetwork);
 
   try {
-    if (!idNetwork) invalidDataError(['id inexistent']);
-
-    await credentialsService.deleteCredential(userId, idNetwork);
+    await networksService.deleteNetwork(userId, idNetwork);
 
     return res.sendStatus(httpStatus.OK);
   } catch (error: any) {
