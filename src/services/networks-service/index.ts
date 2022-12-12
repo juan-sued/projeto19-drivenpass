@@ -1,9 +1,7 @@
 import { forbiddenError, notFoundError } from '@/errors';
-import { RegisterCredential, RegisterNetwork } from '@/protocols';
-import credentialsRepository from '@/repositories/credentials-repository';
+import { RegisterNetwork } from '@/protocols';
 import networksRepository from '@/repositories/networks-repository';
 import Cryptr from 'cryptr';
-import { duplicatedNetworkError } from './errors';
 
 const cryptr = new Cryptr(process.env.SECRET_KEY || '!5S5G6$1AE@');
 
@@ -54,7 +52,7 @@ async function deleteNetwork(userId: number, idNetwork: number) {
 
   if (network.userId !== userId) throw forbiddenError();
 
-  return networksRepository.deleteCredential(idNetwork);
+  return networksRepository.deleteNetwork(idNetwork);
 }
 
 //============= UTILS ===============//
