@@ -18,46 +18,43 @@ async function createNetwork({ password, network, title, userId }: RegisterNetwo
   });
 }
 
-async function listNetworkById(userId: number, idCredential: number) {
-  const credential = await validateCredentialOrFail(idCredential);
-
-  if (credential.userId !== userId) throw forbiddenError();
+async function listNetworkById(userId: number, idNetwork: number) {
+  const network = await validateNetworkOrFail(idNetwork);
+  if (network.userId !== userId) throw forbiddenError();
 
   const result = {
-    credentialId: credential.id,
-    title: credential.title,
-    username: credential.username,
-    url: credential.url,
-    password: decriptPassword(credential.password)
+    networkId: network.id,
+    title: network.title,
+    network: network.network,
+    password: decriptPassword(network.password)
   };
 
   return result;
 }
 
 async function listNetworks(userId: number) {
-  const credentials = await credentialsRepository.findAllCredentials(userId);
+  const networks = await networksRepository.findAllNetworks(userId);
+  console.log(userId);
+  const listNetworks = [];
 
-  const listCredentials = [];
-
-  for (const credential of credentials) {
-    listCredentials.push({
-      credentialId: credential.id,
-      title: credential.title,
-      username: credential.username,
-      url: credential.url,
-      password: decriptPassword(credential.password)
+  for (const network of networks) {
+    listNetworks.push({
+      networkId: network.id,
+      title: network.title,
+      network: network.network,
+      password: decriptPassword(network.password)
     });
   }
 
-  return listCredentials;
+  return listNetworks;
 }
 
-async function deleteNetwork(userId: number, idCredential: number) {
-  const credential = await validateCredentialOrFail(idCredential);
+async function deleteNetwork(userId: number, idNetwork: number) {
+  const network = await validateNetworkOrFail(idNetwork);
 
-  if (credential.userId !== userId) throw forbiddenError();
+  if (network.userId !== userId) throw forbiddenError();
 
-  return credentialsRepository.deleteCredential(idCredential);
+  return networksRepository.deleteCredential(idNetwork);
 }
 
 //============= UTILS ===============//
@@ -67,24 +64,13 @@ function decriptPassword(hashedPassword: string) {
   return decryptPassword;
 }
 
-async function validateUniqueNameCredentialOrFail(title: string, userId: number) {
-  const credentialsWithSameName = await credentialsRepository.findByTitleAnduserId(
-    title,
-    userId
-  );
+async function validateNetworkOrFail(idNetwork: number) {
+  const network = await networksRepository.findByIdNetwork(idNetwork);
 
-  if (credentialsWithSameName) {
-    throw duplicatedNetworkError();
-  }
-}
-
-async function validateCredentialOrFail(idCredential: number) {
-  const credential = await credentialsRepository.findByIdCredential(idCredential);
-
-  if (!credential) {
+  if (!network) {
     throw notFoundError();
   }
-  return credential;
+  return network;
 }
 
 const networksService = {
