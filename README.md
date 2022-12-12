@@ -138,7 +138,7 @@ Retorno:
 
 
 
-#### Retorna um item
+#### Retorna um network
 
 ```http
   GET /networks/${id}
