@@ -20,8 +20,8 @@ async function findByTitleAnduserId(
   return prisma.credential.findFirst(params);
 }
 
-async function findAllCredentials(userId: number, select?: Prisma.CredentialSelect) {
-  const params: Prisma.CredentialFindManyArgs = {
+async function findAllNetworks(userId: number, select?: Prisma.NetworkSelect) {
+  const params: Prisma.NetworkFindManyArgs = {
     where: {
       userId
     }
@@ -31,17 +31,17 @@ async function findAllCredentials(userId: number, select?: Prisma.CredentialSele
     params.select = select;
   }
 
-  return prisma.credential.findMany(params);
+  return prisma.network.findMany(params);
 }
 
-async function findByIdCredential(
-  idCredential: number,
+async function findByIdNetwork(
+  idNetwork: number,
   userId?: number,
-  select?: Prisma.CredentialSelect
+  select?: Prisma.NetworkSelect
 ) {
-  const params: Prisma.CredentialFindFirstArgs = {
+  const params: Prisma.NetworkFindFirstArgs = {
     where: {
-      id: idCredential,
+      id: idNetwork,
       userId
     }
   };
@@ -50,7 +50,7 @@ async function findByIdCredential(
     params.select = select;
   }
 
-  return prisma.credential.findFirst(params);
+  return prisma.network.findFirst(params);
 }
 
 async function create(data: Prisma.NetworkUncheckedCreateInput) {
@@ -68,8 +68,8 @@ async function deleteCredential(idCredential: number) {
 const networksRepository = {
   findByTitleAnduserId,
   create,
-  findAllCredentials,
-  findByIdCredential,
+  findAllNetworks,
+  findByIdNetwork,
   deleteCredential
 };
 

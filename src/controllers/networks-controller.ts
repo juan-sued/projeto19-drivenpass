@@ -22,20 +22,20 @@ export async function networkPost(req: Request, res: Response) {
 
 export async function networksGet(req: Request, res: Response) {
   const { userId } = res.locals;
-  const idCredential = Number(req.params.idCredential);
+  const idNetwork = Number(req.params.idNetwork);
 
   try {
-    let resultCredentials: any = [];
+    let resultNetworks: any = [];
 
-    if (idCredential) {
-      const result = await credentialsService.listCredentialById(userId, idCredential);
-      resultCredentials = result;
+    if (idNetwork) {
+      const network = await networksService.listNetworkById(userId, idNetwork);
+      resultNetworks = network;
     } else {
-      const credentials = await credentialsService.listAllCredentials(userId);
-      resultCredentials = credentials;
+      const networks = await networksService.listNetworks(userId);
+      resultNetworks = networks;
     }
 
-    return res.status(httpStatus.OK).send(resultCredentials);
+    return res.status(httpStatus.OK).send(resultNetworks);
   } catch (error: any) {
     if (error.name === 'ConflictError') {
       return res.sendStatus(httpStatus.FORBIDDEN);
@@ -44,14 +44,14 @@ export async function networksGet(req: Request, res: Response) {
   }
 }
 
-export async function networkselete(req: Request, res: Response) {
+export async function networkdelete(req: Request, res: Response) {
   const { userId } = res.locals;
-  const idCredential = Number(req.params.idCredential);
+  const idNetwork = Number(req.params.idNetwork);
 
   try {
-    if (!idCredential) invalidDataError(['id inexistent']);
+    if (!idNetwork) invalidDataError(['id inexistent']);
 
-    await credentialsService.deleteCredential(userId, idCredential);
+    await credentialsService.deleteCredential(userId, idNetwork);
 
     return res.sendStatus(httpStatus.OK);
   } catch (error: any) {
