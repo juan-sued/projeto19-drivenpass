@@ -11,7 +11,7 @@ export async function credentialsPost(req: Request, res: Response) {
   try {
     await credentialsService.createCredential({ password, url, title, username, userId });
 
-    return res.status(httpStatus.CREATED);
+    return res.sendStatus(httpStatus.CREATED);
   } catch (error: any) {
     if (error.name === 'DuplicatedCredentialError') {
       return res.status(httpStatus.CONFLICT).send(error);
