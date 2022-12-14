@@ -4,7 +4,7 @@ import 'express-async-errors';
 import cors from 'cors';
 
 import { handleApplicationErrors } from '@/middlewares';
-import { connectDb, disconnectDB } from '@/config';
+import { connectDb, disconnectDB, loadEnv } from '@/config';
 import {
   authenticationRouter,
   usersRouter,
@@ -12,7 +12,10 @@ import {
   networksRouter
 } from '@/routes';
 
+loadEnv();
+
 const app = express();
+
 app
   .use(cors())
   .use(express.json())
